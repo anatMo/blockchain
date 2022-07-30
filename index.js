@@ -19,7 +19,7 @@ const {
 } = require("./utils_mysql");
 
 const app = express();
-const PORT = 8080;
+const PORT = 80;
 
 var cors = require("cors"); //can access from localhost!
 const { request } = require("express");
