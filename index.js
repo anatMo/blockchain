@@ -141,6 +141,7 @@ app.get("/getContractsInvestedStocks", (req, res) => {
     if (error) {
       return console.error(error.message);
     }
+    results[0]["currentRate"] = 101;
     res.send(results[0]);
   });
   // connection.end();
