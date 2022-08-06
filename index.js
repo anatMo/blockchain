@@ -151,3 +151,29 @@ app.get("/getContractsInvestedStocks", (req, res) => {
   });
   // connection.end();
 });
+
+
+app.get("/getContractsValue", (req, res) => {
+  const { info } = req.body;
+  var contract = info.contract;
+
+  let sql = `SELECT symbol, quantity 
+  FROM usersdb.contracts_stocks 
+  where contract = ?`;
+
+  connection.query(sql,contract, async(error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+    var totalContractValue = 0;
+    for (let i = 0; i < results.length; i++) {
+      var stockCloseDict = await getStocksCloseArray([results[i]["symbol"]]);
+      var stocksCloseNow = getStockCloseNow(stockCloseDict, results[i]["symbol"]);
+      var totalSymbolValue = (stocksCloseNow * (results[i]["quantity"]));
+      totalContractValue = totalContractValue + totalSymbolValue;
+    }
+    
+    res.send(totalContractValue);
+  });
+  // connection.end();
+});
