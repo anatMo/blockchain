@@ -137,7 +137,7 @@ app.get("/getContractsInvestedStocks", (req, res) => {
 
   let sql = `SELECT * FROM contracts_stocks where contract = ?`;
 
-  connection.query(sql,contract, (error, results, fields) => {
+  connection.query(sql,contract, async(error, results, fields) => {
     if (error) {
       return console.error(error.message);
     }
