@@ -165,15 +165,16 @@ app.get("/getContractsValue", (req, res) => {
     if (error) {
       return console.error(error.message);
     }
-    var totalContractValue = 0;
+    var totalContractValueUSD = 0;
     for (let i = 0; i < results.length; i++) {
       var stockCloseDict = await getStocksCloseArray([results[i]["symbol"]]);
       var stocksCloseNow = getStockCloseNow(stockCloseDict, results[i]["symbol"]);
       var totalSymbolValue = (stocksCloseNow * (results[i]["quantity"]));
-      totalContractValue = totalContractValue + totalSymbolValue;
+      totalContractValueUSD = totalContractValueUSD + totalSymbolValue;
     }
-    
-    res.send({"totalContractValue":totalContractValue});
+    var ethInUsd = await getEthInUsd();
+    var totalContractValueETH = totalContractValueUSD / ethInUsd;
+    res.send({"totalContractValueETH":totalContractValueETH});
   });
   // connection.end();
 });
