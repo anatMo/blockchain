@@ -141,8 +141,13 @@ app.get("/getContractsInvestedStocks", (req, res) => {
     if (error) {
       return console.error(error.message);
     }
-    results[0]["currentRate"] = 101;
-    res.send(results[0]);
+    for (let i = 0; i < results.length; i++) {
+      var stockCloseDict = await getStocksCloseArray([results[i]["symbol"]]);
+      var stocksCloseNow = getStockCloseNow(stockCloseDict, results[i]["symbol"]);
+      results[i]["currentRate"] = stocksCloseNow;
+    }
+    
+    res.send(results);
   });
   // connection.end();
 });
