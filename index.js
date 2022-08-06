@@ -130,3 +130,18 @@ app.post("/sell", (req, res) => {
 
   // connection.end();
 });
+
+app.get("/getContractsInvestedStocks", (req, res) => {
+  const { info } = req.body;
+  var contract = info.contract;
+
+  let sql = `SELECT * FROM contracts_stocks where contract = ?`;
+
+  connection.query(sql,contract, (error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+    res.send(results);
+  });
+  // connection.end();
+});
