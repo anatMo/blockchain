@@ -141,7 +141,7 @@ app.get("/getContractsInvestedStocks", (req, res) => {
     if (error) {
       return console.error(error.message);
     }
-    res.send(results);
+    res.send(results[0]);
   });
   // connection.end();
 });
