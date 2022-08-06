@@ -173,7 +173,7 @@ app.get("/getContractsValue", (req, res) => {
       totalContractValue = totalContractValue + totalSymbolValue;
     }
     
-    res.send(totalContractValue);
+    res.send({"totalContractValue":totalContractValue});
   });
   // connection.end();
 });
