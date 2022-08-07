@@ -109,10 +109,14 @@ app.post("/sell", async(req, res) => {
   const symbol = sellInfo.symbol;
   const quantity = sellInfo.quantity;
 
-  // var stockCloseDict = await getStocksCloseArray([symbol]);
-  // var stocksCloseNow = getStockCloseNow(stockCloseDict, symbol);
+  var stockCloseDict = await getStocksCloseArray([symbol]);
+  var stocksCloseNow = getStockCloseNow(stockCloseDict, symbol);
+
+  var totalUSD = quantity * stocksCloseNow;
 
   var ethInUsd = await getEthInUsd();
+
+  var totalETH = totalUSD / ethInUsd;
 
   let sql = `SELECT quantity FROM usersdb.contracts_stocks where contract =? AND symbol = ?`;
   let data = [contract, symbol];
@@ -125,10 +129,10 @@ app.post("/sell", async(req, res) => {
     var updatedQuantity = currentQuantity - quantity;
     if (updatedQuantity <= 0) {
       deleteContractfromMySql(contract, symbol);
-      res.send("USD: " + (quantity * ethInUsd));
+      res.send("ETH: " + totalETH);
     }else{
       updateQuantityMySql(-quantity,contract,symbol);
-      res.send("USD: " + (quantity * ethInUsd));
+      res.send("ETH: " + totalETH);
     }
   });
 
