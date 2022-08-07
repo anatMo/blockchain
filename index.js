@@ -19,7 +19,7 @@ const {
 } = require("./utils_mysql");
 
 const app = express();
-const PORT = 80;
+const PORT = 8080;
 
 var cors = require("cors"); //can access from localhost!
 const { request } = require("express");
@@ -141,7 +141,7 @@ app.post("/sell", async(req, res) => {
   // connection.end();
 });
 
-app.get("/getContractsInvestedStocks", (req, res) => {
+app.post("/getContractsInvestedStocks", (req, res) => {
   const { info } = req.body;
   var contract = info.contract;
 
@@ -163,7 +163,7 @@ app.get("/getContractsInvestedStocks", (req, res) => {
 });
 
 
-app.get("/getContractsValue", (req, res) => {
+app.post("/getContractsValue", (req, res) => {
   const { info } = req.body;
   var contract = info.contract;
 
