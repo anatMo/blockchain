@@ -131,10 +131,10 @@ app.post("/sell", async(req, res) => {
     var updatedQuantity = currentQuantity - quantity;
     if (updatedQuantity <= 0) {
       deleteContractfromMySql(contract, symbol);
-      res.send("ETH: " + totalETH);
+      res.send({"ETH": totalETH});
     }else{
       updateQuantityMySql(-quantity,contract,symbol);
-      res.send("ETH: " + totalETH);
+      res.send({"ETH": totalETH});
     }
   });
 
