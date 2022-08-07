@@ -124,6 +124,9 @@ app.post("/sell", async(req, res) => {
     if (error) {
       return console.error(error.message);
     }
+    if(results == null){
+      res.send("No such contract");
+    }
     var currentQuantity = results[0].quantity;
     var updatedQuantity = currentQuantity - quantity;
     if (updatedQuantity <= 0) {
