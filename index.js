@@ -67,8 +67,7 @@ app.post("/purchase", async (req, res) => {
   const eth = purchaseInfo.eth;
 
   var stockCloseDict = await getStocksCloseArray([symbol]);
-  // var stocksCloseNow = getStockCloseNow(stockCloseDict, symbol);
-  var stocksCloseNow = 114.60;
+  var stocksCloseNow = getStockCloseNow(stockCloseDict, symbol);
 
   var ethInUsd = await getEthInUsd();
   var quantityApproved = parseInt(eth*ethInUsd/stocksCloseNow);
