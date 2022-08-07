@@ -101,13 +101,18 @@ app.post("/purchase", async (req, res) => {
 });
 
 
-app.post("/sell", (req, res) => {
+app.post("/sell", async(req, res) => {
   const { sellInfo } = req.body;
 
 
   const contract = sellInfo.contract;
   const symbol = sellInfo.symbol;
   const quantity = sellInfo.quantity;
+
+  // var stockCloseDict = await getStocksCloseArray([symbol]);
+  // var stocksCloseNow = getStockCloseNow(stockCloseDict, symbol);
+
+  var ethInUsd = await getEthInUsd();
 
   let sql = `SELECT quantity FROM usersdb.contracts_stocks where contract =? AND symbol = ?`;
   let data = [contract, symbol];
@@ -116,15 +121,14 @@ app.post("/sell", (req, res) => {
     if (error) {
       return console.error(error.message);
     }
-    console.log(results + "    YYYYYYYY");
     var currentQuantity = results[0].quantity;
     var updatedQuantity = currentQuantity - quantity;
     if (updatedQuantity <= 0) {
       deleteContractfromMySql(contract, symbol);
-      res.send("Successfuly selled.");
+      res.send("Successfully sold./n quantity: " + quantity + "/n USD: " + (quantity * ethInUsd));
     }else{
       updateQuantityMySql(-quantity,contract,symbol);
-      res.send("Successfuly selled.");
+      res.send("Successfully sold");
     }
   });
 
