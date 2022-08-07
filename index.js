@@ -186,3 +186,22 @@ app.get("/getContractsValue", (req, res) => {
   });
   // connection.end();
 });
+
+app.post("/deleteContractFromDB", (req, res) => {
+  const { info } = req.body;
+  console.log(info);
+  var contract = info.contract;
+
+  let sql = `DELETE FROM contracts_stocks
+  WHERE contract=?`;
+
+  connection.query(sql,contract, (error, results, fields) => {
+    if (error) {
+      return console.error(error.message);
+    }
+    res.send("Deleted Successfully");
+    
+  });
+
+
+});

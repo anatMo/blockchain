@@ -28,6 +28,12 @@
 	{"contract":"0x90d93Fe231F5b0029ceF185A1E9fbc0407c0E86D"}
 }
 
+//deleteContractFromDB
+{
+	"info":
+	{"contract":"0x90d93Fe231F5b0029ceF185A1E9fbc0407c0E86D"}
+}
+
 //Sell 
 {
 	"sellInfo":{
