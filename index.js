@@ -128,7 +128,7 @@ app.post("/sell", async(req, res) => {
       res.send("Successfully sold./n quantity: " + quantity + "/n USD: " + (quantity * ethInUsd));
     }else{
       updateQuantityMySql(-quantity,contract,symbol);
-      res.send("Successfully sold");
+      res.send("Successfully sold./n quantity: " + quantity + "/n USD: " + (quantity * ethInUsd));
     }
   });
 
