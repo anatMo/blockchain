@@ -67,8 +67,8 @@ app.post("/purchase", async (req, res) => {
   const eth = purchaseInfo.eth;
 
   var stockCloseDict = await getStocksCloseArray([symbol]);
-  var stocksCloseNow = getStockCloseNow(stockCloseDict, symbol);
-
+  // var stocksCloseNow = getStockCloseNow(stockCloseDict, symbol);
+  var stocksCloseNow = 114.60;
 
   var ethInUsd = await getEthInUsd();
   var quantityApproved = parseInt(eth*ethInUsd/stocksCloseNow);
@@ -77,8 +77,8 @@ app.post("/purchase", async (req, res) => {
 
   if (approvePurchase) {
     //check if a row with contract-symbol exists in the db
-    let sql = `SELECT 1 FROM contracts_stocks WHERE contract= ? AND symbol=?`;
-    let data = [contract, symbol];
+    let sql = `SELECT 1 FROM contracts_stocks WHERE contract= ? AND symbol=? AND purchase_rate=?`;
+    let data = [contract, symbol,stocksCloseNow];
 
     connection.query(sql, data, (error, results, fields) => {
       if (error) {
@@ -87,10 +87,10 @@ app.post("/purchase", async (req, res) => {
       if (results == 0) {
         //if there is 0 rows, its a new contract-symbol-> insert row
         insertToMySql(contract, symbol, stocksCloseNow, quantityApproved);
-        res.send("Successfuly purchased.");
+        res.send("Successfully purchased.");
       } else {
         updateQuantityMySql(quantityApproved, contract, symbol);
-        res.send("Successfuly purchased.");
+        res.send("Successfully purchased.");
       }
     });
     // connection.end();
